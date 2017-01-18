@@ -1,7 +1,7 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Дмитрий Сухинин](https://up.htmlacademy.ru/javascript/8/user/19726).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Алексеев](https://github.com/aalexeev239).
 
 ---
 
