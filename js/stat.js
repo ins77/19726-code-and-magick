@@ -1,6 +1,6 @@
 'use strict';
 
-window.getRandomRange = function (min, max) {
+window.getRandomRange = function (min, max, precision) {
   return (Math.random() * (max - min) + min);
 };
 
@@ -30,13 +30,7 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
 
-  var max = 0;
-
-  times.forEach(function (time) {
-    if (time > max) {
-      max = time;
-    }
-  });
+  var max = Math.max.apply(null, times);
 
   var histHeight = 150;
   var histLeft = 155;
