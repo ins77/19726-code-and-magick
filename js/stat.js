@@ -44,8 +44,6 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText(time.toFixed(0), histLeft + indent * i, 90 + histOverallHeight - histRealHeight);
 
     if (time === max) {
-      ctx.fillStyle = '#000';
-      ctx.font = '16px PT Mono';
       ctx.fillText('Ура, ' + name + ' победитель!', 120, 40);
       ctx.fillText('Список результатов:', 120, 60);
     }
@@ -57,7 +55,6 @@ window.renderStatistics = function (ctx, names, times) {
     }
 
     ctx.fillRect(histLeft + indent * i, 100 + histOverallHeight - histRealHeight, 40, histRealHeight);
-    ctx.fillStyle = '#000';
     ctx.fillText(name, histLeft + indent * i, 95 + histOverallHeight + 20);
   });
 };
