@@ -1,7 +1,7 @@
 'use strict';
 
-window.getRandomRange = function (min, max, precision) {
-  return (Math.random() * (max - min) + min);
+window.getRandomRange = function (min, max) {
+  return Math.random() * (max - min) + min;
 };
 
 window.drawCloud = function (ctx, x, y, width, height) {
@@ -32,16 +32,16 @@ window.renderStatistics = function (ctx, names, times) {
 
   var max = Math.max.apply(null, times);
 
-  var histHeight = 150;
+  var histOverallHeight = 150;
   var histLeft = 155;
-  var step = histHeight / max;
+  var histStep = histOverallHeight / max;
   var indent = 90;
 
   times.forEach(function (time, i) {
     var name = names[i];
-    var height = step * time;
+    var histRealHeight = histStep * time;
 
-    ctx.fillText(time.toFixed(0), histLeft + indent * i, 90 + histHeight - height);
+    ctx.fillText(time.toFixed(0), histLeft + indent * i, 90 + histOverallHeight - histRealHeight);
 
     if (time === max) {
       ctx.fillStyle = '#000';
@@ -56,8 +56,8 @@ window.renderStatistics = function (ctx, names, times) {
       ctx.fillStyle = 'rgba(0, 0, 255, ' + window.getRandomRange(0.1, 1.1).toFixed(1) + ')';
     }
 
-    ctx.fillRect(histLeft + indent * i, 100 + histHeight - height, 40, height);
+    ctx.fillRect(histLeft + indent * i, 100 + histOverallHeight - histRealHeight, 40, histRealHeight);
     ctx.fillStyle = '#000';
-    ctx.fillText(name, histLeft + indent * i, 95 + histHeight + 20);
+    ctx.fillText(name, histLeft + indent * i, 95 + histOverallHeight + 20);
   });
 };
