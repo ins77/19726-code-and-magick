@@ -2,10 +2,10 @@
 
 window.getRandomRange = function (min, max, precision) {
   var randNum = Math.random() * (max - min) + min;
-  if (precision === undefined) {
+  if (typeof precision === 'undefined') {
     return randNum;
   }
-    return +randNum.toFixed(precision);
+  return +randNum.toFixed(precision);
 };
 
 window.drawCloud = function (ctx, x, y, width, height) {
@@ -59,7 +59,7 @@ window.renderStatistics = function (ctx, names, times) {
     }
 
     ctx.fillRect(histLeft + indent * i, 100 + histOverallHeight - histRealHeight, 40, histRealHeight);
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = '#000';
     ctx.fillText(name, histLeft + indent * i, 95 + histOverallHeight + 20);
   });
 };
