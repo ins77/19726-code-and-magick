@@ -1,7 +1,11 @@
 'use strict';
 
 window.getRandomRange = function (min, max, precision) {
-  return +(Math.random() * (max - min) + min).toFixed(precision);
+  var randNum = Math.random() * (max - min) + min;
+  if (precision === undefined) {
+    return randNum;
+  }
+    return +randNum.toFixed(precision);
 };
 
 window.drawCloud = function (ctx, x, y, width, height) {
