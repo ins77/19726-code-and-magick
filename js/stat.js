@@ -1,10 +1,10 @@
 'use strict';
 
-window.getRandomRange = function(min, max) {
+window.getRandomRange = function (min, max) {
   return (Math.random() * (max - min) + min);
 };
 
-window.drawCloud = function(ctx, x, y, width, height) {
+window.drawCloud = function (ctx, x, y, width, height) {
   var offset = 10;
   ctx.beginPath();
   ctx.moveTo(x, y);
@@ -20,19 +20,19 @@ window.drawCloud = function(ctx, x, y, width, height) {
   ctx.fill();
 };
 
-window.renderStatistics = function(ctx, names, times) {
+window.renderStatistics = function (ctx, names, times) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  drawCloud(ctx, 110, 20, 420, 270);
+  window.drawCloud(ctx, 110, 20, 420, 270);
 
   ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-  drawCloud(ctx, 100, 10, 420, 270);
+  window.drawCloud(ctx, 100, 10, 420, 270);
 
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
 
   var max = 0;
 
-  times.forEach(function(time) {
+  times.forEach(function (time) {
     if (time > max) {
       max = time;
     }
@@ -43,7 +43,7 @@ window.renderStatistics = function(ctx, names, times) {
   var step = histHeight / max;
   var indent = 90;
 
-  times.forEach(function(time, i) {
+  times.forEach(function (time, i) {
     var name = names[i];
     var height = step * time;
 
@@ -57,9 +57,9 @@ window.renderStatistics = function(ctx, names, times) {
     }
 
     if (name === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)'
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
-      ctx.fillStyle = 'rgba(0, 0, 255, ' + getRandomRange(0.1, 1.1).toFixed(1) + ')';
+      ctx.fillStyle = 'rgba(0, 0, 255, ' + window.getRandomRange(0.1, 1.1).toFixed(1) + ')';
     }
 
     ctx.fillRect(histLeft + indent * i, 100 + histHeight - height, 40, height);
