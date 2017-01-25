@@ -1,9 +1,11 @@
 'use strict';
 
-var COLOR_BLACK_SHADOW = 'rgba(0, 0, 0, 0.7)';
-var COLOR_WHITE = 'rgba(255, 255, 255, 1)';
-var COLOR_BLACK = 'rgba(0, 0, 0, 1)';
-var COLOR_RED = 'rgba(255, 0, 0, 1)';
+var color = {
+  BLACK_SHADOW: 'rgba(0, 0, 0, 0.7)',
+  BLACK: 'rgba(0, 0, 0, 1)',
+  WHITE: 'rgba(255, 255, 255, 1)',
+  RED: 'rgba(255, 0, 0, 1)'
+};
 
 var FONT_MONO = '16px PT Mono';
 
@@ -24,7 +26,8 @@ var getRandomRange = function (min, max, precision) {
   return +randNum.toFixed(precision);
 };
 
-var drawCloud = function (ctx, x, y, width, height) {
+var drawCloud = function (ctx, x, y, width, height, cloudColor) {
+  ctx.fillStyle = cloudColor;
   ctx.beginPath();
   ctx.moveTo(x, y);
   ctx.lineTo(x + OFFSET, y + height / 2);
@@ -59,11 +62,8 @@ var renderHist = function (ctx, names, times, max) {
     // вывод времени
     ctx.fillText(time.toFixed(0), HIST_X + HIST_COLUMN_INDENT * i, 90 + HIST_HEIGHT_MAX - histRealHeight);
 
-    if (name === NAME_YOU) {
-      ctx.fillStyle = COLOR_RED;
-    } else {
-      ctx.fillStyle = 'rgba(0, 0, 255, ' + getRandomRange(0.1, 1, 1) + ')';
-    }
+    // установка цвета столбца гистограммы
+    ctx.fillStyle = name === NAME_YOU ? color.RED : 'rgba(0, 0, 255, ' + getRandomRange(0.1, 1, 1) + ')';
 
     // отрисовка гистограммы. (Начало координат канваса в верхней левой точке).
     // По оси X - расстояние от левого края канваса до левого края столбца гистограммы.
@@ -73,24 +73,20 @@ var renderHist = function (ctx, names, times, max) {
     // вывод имени участника
     // По оси X - двигаем имя вправо под соответствующий столбец гистограммы
     // По оси Y - ставим имя на 25px ниже столбца гистограммы
-    ctx.fillStyle = COLOR_BLACK;
+    ctx.fillStyle = color.BLACK;
     ctx.fillText(name, HIST_X + HIST_COLUMN_INDENT * i, 115 + HIST_HEIGHT_MAX);
   });
 };
 
 window.renderStatistics = function (ctx, names, times) {
-  ctx.fillStyle = COLOR_BLACK_SHADOW;
-  drawCloud(ctx, 110, 20, 420, 270);
-
-  ctx.fillStyle = COLOR_WHITE;
-  drawCloud(ctx, 100, 10, 420, 270);
-
-  ctx.fillStyle = COLOR_BLACK;
-  ctx.font = FONT_MONO;
-
   var max = Math.max.apply(null, times);
 
-  renderHistInfo(ctx, names, times, max);
+  drawCloud(ctx, 110, 20, 420, 270, color.BLACK_SHADOW);
+  drawCloud(ctx, 100, 10, 420, 270, color.WHITE);
 
+  ctx.fillStyle = color.BLACK;
+  ctx.font = FONT_MONO;
+
+  renderHistInfo(ctx, names, times, max);
   renderHist(ctx, names, times, max);
 };
