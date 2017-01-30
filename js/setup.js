@@ -1,20 +1,18 @@
 'use strict';
 
-var setup = document.querySelector('.setup');
-var setupOpen = document.querySelector('.setup-open');
-var setupClose = setup.querySelector('.setup-close');
-var setupUserName = setup.querySelector('.setup-user-name');
-var setupFireball = setup.querySelector('.setup-fireball-wrap');
+var ElementSetup = document.querySelector('.setup');
+var ElementSetupOpen = document.querySelector('.setup-open');
+var ElementSetupClose = ElementSetup.querySelector('.setup-close');
+var ElementSetupUserName = ElementSetup.querySelector('.setup-user-name');
+var ElementSetupFireball = ElementSetup.querySelector('.setup-fireball-wrap');
 
-var wizard = document.querySelector('#wizard');
-var wizardCoat = wizard.querySelector('#wizard-coat');
-var wizardEyes = wizard.querySelector('#wizard-eyes');
+var ElementWizard = document.querySelector('#wizard');
+var ElementWizardCoat = ElementWizard.querySelector('#wizard-coat');
+var ElementWizardEyes = ElementWizard.querySelector('#wizard-eyes');
 
-var colorsCoatIndex = 1;
-var colorsEyesIndex = 1;
-var colorsFireballIndex = 1;
+var INVISIBLE = 'invisible';
 
-var colorsCoat = [
+var COLORS_COAT = [
   'rgb(101, 137, 164)',
   'rgb(241, 43, 107)',
   'rgb(146, 100, 161)',
@@ -22,14 +20,14 @@ var colorsCoat = [
   'rgb(215, 210, 55)',
   'rgb(0, 0, 0)'
 ];
-var colorsEyes = [
+var COLORS_EYES = [
   'black',
   'red',
   'blue',
   'yellow',
   'green'
 ];
-var colorsFireball = [
+var COLORS_FIREBALL = [
   '#ee4830',
   '#30a8ee',
   '#5ce6c0',
@@ -37,28 +35,49 @@ var colorsFireball = [
   '#e6e848'
 ];
 
-setupUserName.required = true;
-setupUserName.maxLength = 50;
+function setInputsAttributes() {
+  ElementSetupUserName.required = true;
+  ElementSetupUserName.maxLength = 50;
+}
 
-setupOpen.addEventListener('click', function () {
-  setup.classList.remove('invisible');
-});
+// создаем счетчик от 0 до длины массива, начальный индекс будет - 1. При каждом вызове счетчика, index увеличивается на 1, либо устанавливается в 0.
+function getColorIndex(colorsArray) {
+  var index = 0;
+  return function () {
+    index = ++index % colorsArray.length;
+    return index;
+  };
+}
 
-setupClose.addEventListener('click', function () {
-  setup.classList.add('invisible');
-});
+// создаем отдельные счетчики для разных массивов
+var colorsFireballIndex = getColorIndex(COLORS_FIREBALL);
+var colorsCoatIndex = getColorIndex(COLORS_COAT);
+var colorsEyesIndex = getColorIndex(COLORS_EYES);
 
-setupFireball.addEventListener('click', function (e) {
-  e.currentTarget.style.background = colorsFireball[colorsFireballIndex++];
-  colorsFireballIndex = colorsFireballIndex === colorsFireball.length ? 0 : colorsFireballIndex;
-});
+function handlerSetupFireball() {
+  ElementSetupFireball.style.background = COLORS_FIREBALL[colorsFireballIndex()];
+}
 
-wizardCoat.addEventListener('click', function (e) {
-  e.currentTarget.style.fill = colorsCoat[colorsCoatIndex++];
-  colorsCoatIndex = colorsCoatIndex === colorsCoat.length ? 0 : colorsCoatIndex;
-});
+function handlerWizardCoat() {
+  ElementWizardCoat.style.fill = COLORS_COAT[colorsCoatIndex()];
+}
 
-wizardEyes.addEventListener('click', function (e) {
-  e.currentTarget.style.fill = colorsEyes[colorsEyesIndex++];
-  colorsEyesIndex = colorsEyesIndex === colorsEyes.length ? 0 : colorsEyesIndex;
-});
+function handlerWizardEyes() {
+  ElementWizardEyes.style.fill = COLORS_EYES[colorsEyesIndex()];
+}
+
+function handlerSetupOpen() {
+  ElementSetup.classList.remove(INVISIBLE);
+}
+
+function handlerSetupClose() {
+  ElementSetup.classList.add(INVISIBLE);
+}
+
+setInputsAttributes();
+
+ElementSetupOpen.addEventListener('click', handlerSetupOpen);
+ElementSetupClose.addEventListener('click', handlerSetupClose);
+ElementSetupFireball.addEventListener('click', handlerSetupFireball);
+ElementWizardCoat.addEventListener('click', handlerWizardCoat);
+ElementWizardEyes.addEventListener('click', handlerWizardEyes);

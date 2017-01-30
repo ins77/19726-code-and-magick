@@ -64,7 +64,7 @@ var renderHist = function (ctx, names, times) {
     // вывод времени
     ctx.fillText(time.toFixed(0), HIST_X + HIST_COLUMN_INDENT * i, 90 + HIST_HEIGHT_MAX - histRealHeight);
 
-    // установка цвета с
+    // установка цвета столбца гистограммы
     ctx.fillStyle = name === NAME_YOU ? color.RED : 'rgba(0, 0, 255, ' + getRandomRange(0.1, 1, 1) + ')';
 
     // отрисовка гистограммы. (Начало координат канваса в верхней левой точке).
