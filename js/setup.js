@@ -34,11 +34,9 @@ var setupOpenElement = document.querySelector('.setup-open');
 var setupCloseElement = setupElement.querySelector('.setup-close');
 var setupUserNameElement = setupElement.querySelector('.setup-user-name');
 var setupFireballElement = setupElement.querySelector('.setup-fireball-wrap');
-
 var wizardElement = document.querySelector('#wizard');
 var wizardCoatElement = wizardElement.querySelector('#wizard-coat');
 var wizardEyesElement = wizardElement.querySelector('#wizard-eyes');
-
 // создаем отдельные счетчики для разных массивов
 var colorsFireballIndex = getColorIndex(colors.WIZARD_FIREBALL);
 var colorsCoatIndex = getColorIndex(colors.WIZARD_COAT);
@@ -85,6 +83,5 @@ function handlerSetupClose() {
 }
 
 setInputsAttributes();
-
 setupOpenElement.addEventListener('click', handlerSetupOpen);
 setupCloseElement.addEventListener('click', handlerSetupClose);
