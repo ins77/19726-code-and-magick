@@ -42,9 +42,10 @@ var drawCloud = function (ctx, x, y, width, height, cloudColor) {
   ctx.fill();
 };
 
-var renderHistInfo = function (ctx, names, times, max) {
+var renderHistInfo = function (ctx, names, times) {
+  var min = Math.min.apply(null, times);
   for (var i = 0; i < times.length; i++) {
-    if (times[i] === max) {
+    if (times[i] === min) {
       ctx.fillText('Ура, ' + names[i] + ' победитель!', 120, 40);
       ctx.fillText('Список результатов:', 120, 60);
       break;
@@ -52,7 +53,8 @@ var renderHistInfo = function (ctx, names, times, max) {
   }
 };
 
-var renderHist = function (ctx, names, times, max) {
+var renderHist = function (ctx, names, times) {
+  var max = Math.max.apply(null, times);
   var histStep = HIST_HEIGHT_MAX / max;
 
   times.forEach(function (time, i) {
@@ -79,14 +81,12 @@ var renderHist = function (ctx, names, times, max) {
 };
 
 window.renderStatistics = function (ctx, names, times) {
-  var max = Math.max.apply(null, times);
-
   drawCloud(ctx, 110, 20, 420, 270, color.BLACK_SHADOW);
   drawCloud(ctx, 100, 10, 420, 270, color.WHITE);
 
   ctx.fillStyle = color.BLACK;
   ctx.font = FONT_MONO;
 
-  renderHistInfo(ctx, names, times, max);
-  renderHist(ctx, names, times, max);
+  renderHistInfo(ctx, names, times);
+  renderHist(ctx, names, times);
 };
