@@ -1,46 +1,55 @@
 'use strict';
 
-var ElementSetup = document.querySelector('.setup');
-var ElementSetupOpen = document.querySelector('.setup-open');
-var ElementSetupClose = ElementSetup.querySelector('.setup-close');
-var ElementSetupUserName = ElementSetup.querySelector('.setup-user-name');
-var ElementSetupFireball = ElementSetup.querySelector('.setup-fireball-wrap');
+var classes = {
+  INVISIBLE: 'invisible'
+};
 
-var ElementWizard = document.querySelector('#wizard');
-var ElementWizardCoat = ElementWizard.querySelector('#wizard-coat');
-var ElementWizardEyes = ElementWizard.querySelector('#wizard-eyes');
+var colors = {
+  WIZARD_COAT: [
+    'rgb(101, 137, 164)',
+    'rgb(241, 43, 107)',
+    'rgb(146, 100, 161)',
+    'rgb(56, 159, 117)',
+    'rgb(215, 210, 55)',
+    'rgb(0, 0, 0)'
+  ],
+  WIZARD_EYES: [
+    'black',
+    'red',
+    'blue',
+    'yellow',
+    'green'
+  ],
+  WIZARD_FIREBALL: [
+    '#ee4830',
+    '#30a8ee',
+    '#5ce6c0',
+    '#e848d5',
+    '#e6e848'
+  ]
+};
 
-var INVISIBLE = 'invisible';
+var setupElement = document.querySelector('.setup');
+var setupOpenElement = document.querySelector('.setup-open');
+var setupCloseElement = setupElement.querySelector('.setup-close');
+var setupUserNameElement = setupElement.querySelector('.setup-user-name');
+var setupFireballElement = setupElement.querySelector('.setup-fireball-wrap');
 
-var COLORS_COAT = [
-  'rgb(101, 137, 164)',
-  'rgb(241, 43, 107)',
-  'rgb(146, 100, 161)',
-  'rgb(56, 159, 117)',
-  'rgb(215, 210, 55)',
-  'rgb(0, 0, 0)'
-];
-var COLORS_EYES = [
-  'black',
-  'red',
-  'blue',
-  'yellow',
-  'green'
-];
-var COLORS_FIREBALL = [
-  '#ee4830',
-  '#30a8ee',
-  '#5ce6c0',
-  '#e848d5',
-  '#e6e848'
-];
+var wizardElement = document.querySelector('#wizard');
+var wizardCoatElement = wizardElement.querySelector('#wizard-coat');
+var wizardEyesElement = wizardElement.querySelector('#wizard-eyes');
+
+// создаем отдельные счетчики для разных массивов
+var colorsFireballIndex = getColorIndex(colors.WIZARD_FIREBALL);
+var colorsCoatIndex = getColorIndex(colors.WIZARD_COAT);
+var colorsEyesIndex = getColorIndex(colors.WIZARD_EYES);
 
 function setInputsAttributes() {
-  ElementSetupUserName.required = true;
-  ElementSetupUserName.maxLength = 50;
+  setupUserNameElement.required = true;
+  setupUserNameElement.maxLength = 50;
 }
 
-// создаем счетчик от 0 до длины массива, начальный индекс будет - 1. При каждом вызове счетчика, index увеличивается на 1, либо устанавливается в 0.
+// создаем счетчик от 0 до длины массива, начальный индекс будет - 1, т.к. цвет с индексом 0 задан по умолчанию. При каждом вызове счетчика, index увеличивается на 1, либо устанавливается в 0.
 function getColorIndex(colorsArray) {
   var index = 0;
   return function () {
@@ -49,35 +58,33 @@ function getColorIndex(colorsArray) {
   };
 }
 
-// создаем отдельные счетчики для разных массивов
-var colorsFireballIndex = getColorIndex(COLORS_FIREBALL);
-var colorsCoatIndex = getColorIndex(COLORS_COAT);
-var colorsEyesIndex = getColorIndex(COLORS_EYES);
-
 function handlerSetupFireball() {
-  ElementSetupFireball.style.background = COLORS_FIREBALL[colorsFireballIndex()];
+  setupFireballElement.style.background = colors.WIZARD_FIREBALL[colorsFireballIndex()];
 }
 
 function handlerWizardCoat() {
-  ElementWizardCoat.style.fill = COLORS_COAT[colorsCoatIndex()];
+  wizardCoatElement.style.fill = colors.WIZARD_COAT[colorsCoatIndex()];
 }
 
 function handlerWizardEyes() {
-  ElementWizardEyes.style.fill = COLORS_EYES[colorsEyesIndex()];
+  wizardEyesElement.style.fill = colors.WIZARD_EYES[colorsEyesIndex()];
 }
 
 function handlerSetupOpen() {
-  ElementSetup.classList.remove(INVISIBLE);
+  setupFireballElement.addEventListener('click', handlerSetupFireball);
+  wizardCoatElement.addEventListener('click', handlerWizardCoat);
+  wizardEyesElement.addEventListener('click', handlerWizardEyes);
+  setupElement.classList.remove(classes.INVISIBLE);
 }
 
 function handlerSetupClose() {
-  ElementSetup.classList.add(INVISIBLE);
+  setupFireballElement.removeEventListener('click', handlerSetupFireball);
+  wizardCoatElement.removeEventListener('click', handlerWizardCoat);
+  wizardEyesElement.removeEventListener('click', handlerWizardEyes);
+  setupElement.classList.add(classes.INVISIBLE);
 }
 
 setInputsAttributes();
 
-ElementSetupOpen.addEventListener('click', handlerSetupOpen);
-ElementSetupClose.addEventListener('click', handlerSetupClose);
-ElementSetupFireball.addEventListener('click', handlerSetupFireball);
-ElementWizardCoat.addEventListener('click', handlerWizardCoat);
-ElementWizardEyes.addEventListener('click', handlerWizardEyes);
+setupOpenElement.addEventListener('click', handlerSetupOpen);
+setupCloseElement.addEventListener('click', handlerSetupClose);
